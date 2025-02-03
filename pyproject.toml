@@ -6,8 +6,124 @@ readme = "README.md"
 requires-python = ">=3.13.1"
 dependencies = [
     "fastapi>=0.115.8",
-    "jinja2>=3.1.5",
-    "ruff>=0.9.4",
-    "sqlalchemy>=2.0.37",
     "uvicorn>=0.34.0",
+    "sqlalchemy>=2.0.37",
+    "jinja2>=3.1.5",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.9.4",
+    "loguru>=0.7.3",
+    "mypy>=1.14.1",
+    "vscodedebugvisualizer>=0.1.0",
+]
+test = [
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "pytest-sugar>=1.0.0",
+]
+
+[tool.uv]
+# ------------------------------------ UV ------------------------------------
+default-groups = ["dev", "test"]
+
+[tool.ruff]
+# ----------------------------------- RUFF -----------------------------------
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+]
+
+line-length = 79
+indent-width = 4
+
+target-version = "py313"
+
+[tool.ruff.lint]
+# -------------------------------- RUFF: LINT --------------------------------
+select = [
+    "F", # pyflakes (F): Error detection
+    "E", # pycodesyle (E): Error detection
+    "W", # pycodesyle (W): Warning detection
+    "I", # isort (I): Import sorting
+    "N", # pep8-naming (N): PEP 8 naming conventions
+    "D", # flake8-docstrings (D): Docstring conventions
+    "C", # McCabe (C): Cyclomatic complexity
+    "B", # flake8-bugbear (B): Likely bugs and design problems
+    "UP", # Pyupgrade (UP): Upgrade syntax to newer versions
+    "RUF100", # Ruff (RUF100): Remove unused imports
+]
+
+ignore = [
+    "E203", # Whitespace before ':'
+]
+
+preview = true  # Enables opt-in preview mode for unstable features and new rules.
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]  # Ignore unused imports in __init__.py files.
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"  # Use NumPy-style docstrings.
+
+[tool.ruff.format]
+# -------------------------------- RUFF: FORMAT ------------------------------
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true  # Equivalent to `docformatter`
+
+[tool.mypy]
+# ----------------------------------- MYPY -----------------------------------
+plugins = [
+    "loguru.mypy",
+    "pydantic.mypy"
+]
+
+strict = true
+warn_redundant_casts = true
+
+[tool.pydantic-mypy]
+# ------------------------------ MYPY: PYDANTIC ------------------------------
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+warn_untyped_fields = true
+
+[tool.pytest.ini_options]
+# ------------------------------- TOOL:PYTEST -------------------------------
+testpaths = ["tests", "tests/integration"]
+addopts = "-v"
+python_files = "test_*.py"
+# asyncio_mode = "auto"
+
+[tool.coverage.report]
+# ----------------------------- TOOL:PYTEST-COV -----------------------------
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:"
 ]

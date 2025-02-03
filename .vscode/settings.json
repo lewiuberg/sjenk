@@ -1,0 +1,14 @@
+{
+  "cSpell.words": [
+    "addopts",
+    "asyncio",
+    "direnv",
+    "docformatter",
+    "isort",
+    "McCabe",
+    "pyflakes",
+    "Pyupgrade",
+    "sjenk",
+    "testpaths"
+  ]
+}
