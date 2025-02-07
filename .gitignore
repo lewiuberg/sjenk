@@ -14,3 +14,7 @@ wheels/
 
 # Ruff
 .ruff_cache/
+
+# Logs
+# the logs are located in the .src/api/logs folder
+src/api/logs/
