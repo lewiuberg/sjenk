@@ -1,0 +1,3 @@
+[db]
+name = "sjenk"
+url = "sqlite:///./sjenk.sqlite3"

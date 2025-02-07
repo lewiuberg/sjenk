@@ -49,6 +49,33 @@
 | `booked_area` | enum(`full`, `half`, `quarter`)          | Amount of space booked    |
 | `status`      | enum(`confirmed`, `pending`, `canceled`) | Booking status            |
 
+```mermaid
+erDiagram
+    USERS {
+        int id
+        string username
+        string password_hash
+        enum role
+    }
+    PLACES {
+        int id
+        string name
+        bool allow_partial_booking
+    }
+    BOOKINGS {
+        int id
+        int user_id
+        int place_id
+        datetime start_time
+        datetime end_time
+        enum booked_area
+        enum status
+    }
+
+    USERS ||--o{ BOOKINGS : "made"
+    PLACES ||--o{ BOOKINGS : "booked"
+```
+
 ### **Booking Rules & Conflict Management**
 
 - If **full field** is booked → No other bookings allowed

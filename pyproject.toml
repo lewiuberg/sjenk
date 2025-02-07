@@ -7,8 +7,14 @@ requires-python = ">=3.13.1"
 dependencies = [
     "fastapi>=0.115.8",
     "uvicorn>=0.34.0",
-    "sqlalchemy>=2.0.37",
     "jinja2>=3.1.5",
+    "sqlmodel>=0.0.22",
+    "python-dotenv>=1.0.1",
+    "pyconfs>=0.5.5",
+    "toml>=0.10.2",
+    "stackprinter>=0.2.12",
+    "notifiers>=1.3.3",
+    "setuptools>=75.8.0",
 ]
 
 [dependency-groups]
@@ -116,7 +122,7 @@ warn_untyped_fields = true
 
 [tool.pytest.ini_options]
 # ------------------------------- TOOL:PYTEST -------------------------------
-testpaths = ["tests", "tests/integration"]
+testpaths = ["tests", "tests/integration", "src"]
 addopts = "-v"
 python_files = "test_*.py"
 # asyncio_mode = "auto"

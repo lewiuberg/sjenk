@@ -1,4 +1,9 @@
 {
+  // -------------------------------- PYTHON ---------------------------------
+  "python.terminal.activateEnvironment": true,
+  // -------------------------------- PYTEST ---------------------------------
+  "testExplorer.useNativeTesting": true,
+  // --------------------------------- MISC ----------------------------------
   "cSpell.words": [
     "addopts",
     "asyncio",
@@ -9,6 +14,15 @@
     "pyflakes",
     "Pyupgrade",
     "sjenk",
+    "sqlmodel",
     "testpaths"
+  ],
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "database": "sjenk.sqlite3",
+      "name": "sjenk"
+    }
   ]
 }
