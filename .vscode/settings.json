@@ -10,9 +10,12 @@
     "direnv",
     "docformatter",
     "isort",
+    "levelname",
+    "levelno",
     "McCabe",
     "pyflakes",
     "Pyupgrade",
+    "redoc",
     "sjenk",
     "sqlmodel",
     "testpaths"
@@ -24,5 +27,22 @@
       "database": "sjenk.sqlite3",
       "name": "sjenk"
     }
-  ]
+  ],
+  "logViewer.watch": [
+    {
+      "groupName": "Sjenk",
+      "watches": [
+        {
+          "title": "trace.log",
+          "pattern": "**/trace.log"
+        },
+        {
+          "title": "error.log",
+          "pattern": "**/error.log"
+        }
+      ]
+    }
+  ],
+  // TODO: is there a better way to fix config types?
+  "python.analysis.typeCheckingMode": "off"
 }

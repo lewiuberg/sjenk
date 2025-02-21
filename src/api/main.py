@@ -1,28 +1,50 @@
 """The main application."""
+import sys  # noqa: F401
 
-from datetime import UTC, datetime
-
-from database import create_db_and_tables
+import uvicorn
 from fastapi import FastAPI
-from utils import get_logger, launch_settings, secrets
+from properties import config, settings
+from utils.logging.logging import LoggerConstructor
 
-APP_NAME = str(launch_settings.project.name)
+APP_NAME: str = settings.project.name
+API_VERSION: str = settings.project.version
+API_DESCRIPTION: str = settings.project.description
+API_HOST: str = config.api.host
+API_PORT: int = config.api.port
 
-# TODO: Make the FastAPI logger use the custom logger.
+logger_instance = LoggerConstructor()
+logger = logger_instance.get_logger()
 
-logger = get_logger(slack_webhook=str(secrets.SLACK_WEBHOOK_URL))
 
-start_time = datetime.now(UTC)
-
-logger.debug(f"Creating {APP_NAME} database and tables...")
-create_db_and_tables()
-
-logger.debug(f"Starting {APP_NAME}...")
-
+# Create FastAPI app instance after logging configuration
 app = FastAPI(
     title=APP_NAME,
-    description="A simple FastAPI demo application.",
-    version="0.1",
-    docs_url="/",
-    redoc_url=None,
+    description=API_DESCRIPTION,
+    version=API_VERSION,
+    # docs_url="/",
+    # redoc_url=None,
+    # logger=logger,
 )
+
+
+@app.get("/")
+async def read_root():
+    logger.info("This is an info message.")
+    logger.trace("This is a trace message.")
+    logger.debug("This is a debug message.")
+    logger.success("This is a success message.")
+    logger.warning("This is a warning message.")
+    logger.error("This is an error message.")
+    logger.critical("This is a critical message")
+
+
+if __name__ == "__main__":
+    uvicorn.run(
+        "main:app",
+        host=API_HOST,
+        port=API_PORT,
+        reload=False,
+        access_log=True,
+        log_config=None,
+        log_level=None
+    )
