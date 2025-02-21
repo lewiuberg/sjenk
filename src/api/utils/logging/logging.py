@@ -1,6 +1,7 @@
 """Logger configuration."""
 
 import logging
+import uuid
 from sys import stderr
 
 from loguru import logger
@@ -41,12 +42,25 @@ class LoggerConstructor:
         # Intercept standard logging
         logging.basicConfig(handlers=[self.InterceptHandler()], level=logging.INFO)
 
+        self.log_id = str(uuid.uuid4())[:8]
+
+        self._console_format = (
+            "<green>{time:YYYY-MM-DD_HH:mm:ss}</green> "
+            "| <level>{level: <8}</level> "
+            f"| <magenta>{self.log_id: <8}</magenta> "
+            "| <cyan>{name: <34}</cyan> "
+            "| <level>{function: <26}</level> "
+            "| <level>{line: <4}</level> "
+            "| <level>{message}</level>"
+        )
+
         self.logger = logger
         self.logger.remove(0)
         self.logger.add(
             stderr,
             level="TRACE",
-            format="<green>{time}</green> | {level} | {message} | {extra}",
+            # format="<green>{time}</green> | {level} | {message} | {extra}",
+            format=self._console_format,
             filter="",
             colorize=True,
             backtrace=True,
