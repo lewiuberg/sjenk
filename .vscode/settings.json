@@ -37,6 +37,10 @@
           "pattern": "**/trace.log"
         },
         {
+          "title": "debug.log",
+          "pattern": "**/debug.log"
+        },
+        {
           "title": "error.log",
           "pattern": "**/error.log"
         }

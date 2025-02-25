@@ -1,30 +1,16 @@
 """The main application."""
-import sys  # noqa: F401
 
 import uvicorn
 from fastapi import FastAPI
 from properties import config, settings
-# from utils.logging.logging import LoggerConstructor
 from utils.logging import logger
-
-APP_NAME: str = settings.project.name
-API_VERSION: str = settings.project.version
-API_DESCRIPTION: str = settings.project.description
-API_HOST: str = config.api.host
-API_PORT: int = config.api.port
-
-# logger_instance = LoggerConstructor()
-# logger = logger_instance.get_logger()
-
 
 # Create FastAPI app instance after logging configuration
 app = FastAPI(
-    title=APP_NAME,
-    description=API_DESCRIPTION,
-    version=API_VERSION,
+    title=settings.project.name,
+    description=settings.project.description,
+    version=settings.project.version,
     # docs_url="/",
-    # redoc_url=None,
-    # logger=logger,
 )
 
 
@@ -39,13 +25,44 @@ async def read_root():
     logger.critical("This is a critical message")
 
 
+@app.get("/produce_error")
+async def produce_error():
+    try:
+        a = 1
+        b = "2"
+        a + b
+    except TypeError as e:
+        logger.exception(e)
+
+
+@logger.catch
+@app.get("/produce_zero_division_error")
+async def produce_zero_division_error():
+    try:
+        1 / 0
+    except ZeroDivisionError as e:
+        logger.exception(e)
+
+
+@app.get("/produce_custom_logs")
+async def produce_custom_logs():
+    customerLogger = logger.bind(customer_id="LEWI")
+    customerLogger.info("This is a custom log message.")
+    customerLogger.trace("This is a custom log message.")
+    customerLogger.debug("This is a custom log message.")
+    customerLogger.success("This is a custom log message.")
+    customerLogger.warning("This is a custom log message.")
+    customerLogger.error("This is a custom log message.")
+    customerLogger.critical("This is a custom log message.")
+
+
 if __name__ == "__main__":
     uvicorn.run(
         "main:app",
-        host=API_HOST,
-        port=API_PORT,
+        host=config.api.host,
+        port=config.api.port,
         reload=False,
         access_log=True,
         log_config=None,
-        log_level=None
+        log_level=None,
     )
