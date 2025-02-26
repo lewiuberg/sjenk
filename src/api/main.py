@@ -7,10 +7,32 @@ from utils.logging import logger
 
 # Create FastAPI app instance after logging configuration
 app = FastAPI(
-    title=settings.project.name,
+    debug=config.api.debug,
+    title=settings["project"][
+        "name"
+    ],  # Change to dictionary access due to ".name" being a reserved keyword
     description=settings.project.description,
     version=settings.project.version,
-    # docs_url="/",
+    openapi_url="/openapi.json",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    terms_of_service=settings.project.urls.TermsOfService,
+    contact={
+        "name": settings["project"]["authors"][0]["name"],
+        "email": settings.project.authors[0].email,
+    },
+    license_info={
+        "name": settings.project.license,
+        "url": settings["project"]["license-files"][0],
+    },
+    swagger_ui_parameters={
+        "docExpansion": "none",
+        "syntaxHighlight.theme": "nord",
+        "tryItOutEnabled": True,
+        "app_name": settings.project.name,
+        # "oauth2RedirectUrl": config.async_api.auth.oauth2_url,  # <-- Future?
+    },
+    # generate_unique_id_functions=[],
 )
 
 
@@ -61,7 +83,7 @@ if __name__ == "__main__":
         "main:app",
         host=config.api.host,
         port=config.api.port,
-        reload=False,
+        reload=config.api.reload,
         access_log=True,
         log_config=None,
         log_level=None,

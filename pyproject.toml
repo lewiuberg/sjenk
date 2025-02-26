@@ -1,8 +1,27 @@
 [project]
 name = "sjenk"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
+description = "A web-based booking system for managing time slots at various locations (e.g., football fields, gyms)."
+readme = {file = "README", content-type = "text/markdown"}
+license = "MIT"
+license-files = ["https://github.com/lewiuberg/sjenk/blob/master/LICENSE"]
+authors = [
+    {name = "Lewi Lie Uberg", email = "lewiuberg@icloud.com"},
+]
+maintainers = [
+    {name = "Lewi Lie Uberg", email = "lewiuberg@icloud.com"},
+]
+keywords = ["fastapi", "uvicorn", "sqlmodel", "jinja2", "python", "web", "booking", "system"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+]
 requires-python = ">=3.13.1"
 dependencies = [
     "fastapi>=0.115.8",
@@ -12,11 +31,19 @@ dependencies = [
     "python-dotenv>=1.0.1",
     "pyconfs>=0.5.5",
     "toml>=0.10.2",
-    "stackprinter>=0.2.12",
     "notifiers>=1.3.3",
     "setuptools>=75.8.0",
     "colorama>=0.4.6",
+    "email-validator>=2.2.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/lewiuberg/sjenk"
+Documentation = "https://github.com/lewiuberg/sjenk"
+Repository = "https://github.com/lewiuberg/sjenk"
+Issues = "https://github.com/lewiuberg/sjenk/issues"
+Changelog = "https://github.com/lewiuberg/sjenk/blob/master/CHANGELOG"
+TermsOfService = "https://github.com/lewiuberg/sjenk/blob/master/TERMS_OF_SERVICE"
 
 [dependency-groups]
 dev = [
