@@ -1,5 +1,22 @@
 # Sjenk - Booking System Specification
 
+- [Sjenk - Booking System Specification](#sjenk---booking-system-specification)
+  - [1. Project Overview](#1-project-overview)
+  - [2. Repository Structure](#2-repository-structure)
+  - [2. Data Model (SQLite)](#2-data-model-sqlite)
+    - [**Users Table**](#users-table)
+    - [**Places Table**](#places-table)
+    - [**Bookings Table**](#bookings-table)
+    - [**Booking Rules \& Conflict Management**](#booking-rules--conflict-management)
+  - [3. API Endpoints (FastAPI)](#3-api-endpoints-fastapi)
+    - [**Authentication**](#authentication)
+    - [**Places Management**](#places-management)
+    - [**Booking Management**](#booking-management)
+  - [4. Frontend Structure](#4-frontend-structure)
+    - [**Option 1: Jinja2 (Server-rendered)**](#option-1-jinja2-server-rendered)
+    - [**Option 2: JavaScript (SPA)**](#option-2-javascript-spa)
+  - [5. System Workflow](#5-system-workflow)
+
 ## 1. Project Overview
 
 **Name:** Sjenk
@@ -17,6 +34,32 @@
   - **Database:** SQLite on Raspberry Pi
 
 ---
+
+## 2. Repository Structure
+
+```plaintext
+sjenk/
+├── backend/          # FastAPI backend
+│   ├── app/         # FastAPI app
+│   ├── db/          # SQLite database
+│   ├── tests/       # Unit tests
+│   └── main.py      # Main FastAPI app
+├── frontend/         # Frontend (Jinja2/JS)
+│   ├── static/      # Static files (CSS, JS)
+│   ├── templates/   # Jinja2 templates
+│   └── main.py      # Main Flask app
+└── README.md        # Project overview
+```
+
+Branching strategy: `main` (production), `staging` (testing), `dev` (development), `feature/*` (feature branches)
+
+```mermaid
+graph TD
+    A[main] --> B[staging]
+    B --> C[dev]
+    C --> D[feature/1]
+    C --> E[feature/2]
+```
 
 ## 2. Data Model (SQLite)
 

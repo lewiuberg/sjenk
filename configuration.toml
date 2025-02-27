@@ -1,4 +1,7 @@
+[project]
+
 [api]
+release_date = "2025-06-01"
 host = "localhost"
 port = 8000
 debug = true
