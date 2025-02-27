@@ -15,6 +15,7 @@
     "McCabe",
     "pyflakes",
     "Pyupgrade",
+    "pyyaml",
     "redoc",
     "sjenk",
     "sqlmodel",
