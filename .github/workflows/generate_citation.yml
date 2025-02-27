@@ -18,6 +18,10 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: Add ./src/api to PATH
+        run: |
+          echo "::add-path::src/api"
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
