@@ -20,7 +20,7 @@ jobs:
 
       - name: Add ./src/api to PATH
         run: |
-          echo "::add-path::src/api"
+          echo "PYTHONPATH=$PYTHONPATH:./src/api" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: |
