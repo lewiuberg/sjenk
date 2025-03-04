@@ -46,6 +46,16 @@ app = FastAPI(
     description=settings.project.description,
     version=settings.project.version,
     openapi_url="/openapi.json",
+    openapi_tags=[
+        {
+            "name": "users",
+            "description": "Operations with users.",
+            "externalDocs": {
+                "description": "Items external docs",
+                "url": "https://fastapi.tiangolo.com/",
+            },
+        }
+    ],
     docs_url="/docs",
     redoc_url="/redoc",
     terms_of_service=settings.project.urls.TermsOfService,
