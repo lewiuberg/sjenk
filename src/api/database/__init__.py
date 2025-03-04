@@ -1,10 +1,14 @@
 """Handle the database connection and session management."""
 
-from models.booking import Booking  # noqa: F401
-from models.place import Place  # noqa: F401
-from models.user import User  # noqa: F401
+from typing import Annotated
+
+from fastapi import Depends
+from properties import config
 from sqlmodel import Session, SQLModel, create_engine
-from utils import config
+
+from database.models.booking import Booking
+from database.models.place import Place
+from database.models.user import User
 
 connect_args = {"check_same_thread": False}
 engine = create_engine(
@@ -33,3 +37,7 @@ def get_session():
 def dispose():
     """Dispose of the engine."""
     engine.dispose()
+
+
+# Define a type alias for the database session dependency
+SessionDep = Annotated[Session, Depends(get_session)]

@@ -31,7 +31,7 @@ class User(SQLModel, table=True):
         Base model for SQLModel.
     """
 
-    id: int = Field(default=None, primary_key=True, index=True)
+    id: int = Field(primary_key=True, index=True)
     username: str = Field(max_length=50, unique=True)
     password_hash: str = Field(max_length=100)
     role: UserRole
