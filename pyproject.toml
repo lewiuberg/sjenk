@@ -11,7 +11,7 @@ authors = [
 maintainers = [
     {name = "Lewi Lie Uberg", email = "lewiuberg@icloud.com"},
 ]
-keywords = ["booking", "time slots", "web-based", "fastapi", "uvicorn", "python", "sqlite", "sqlmodel", "jinja2"]
+keywords = ["booking", "time-slots", "web-based", "fastapi", "uvicorn", "python", "sqlite", "sqlmodel", "jinja2"]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Intended Audience :: Developers",
