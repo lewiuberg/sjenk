@@ -1,0 +1,112 @@
+site_name: Sjenk Documentation
+site_description: A web-based booking system for managing time slots at various locations (e.g., football fields, gyms).
+site_url: "https://lewiuberg.github.io/sjenk/"
+repo_url: "https://github.com/lewiuberg/sjenk"
+repo_name: sjenk
+edit_uri: blob/sjenk/docs/
+author: Lewi Lie Uberg
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/lightbulb
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to light mode
+  features:
+    - search.suggest
+    - search.highlight
+    - toc.integrate
+    - navigation.top
+    - navigation.indexes
+    - navigation.tabs
+  # - navigation.tabs.sticky
+  # - navigation.tracking
+  # - navigation.expand
+  # - navigation.sections
+  # - header.autohide
+  icon:
+    repo: fontawesome/brands/github
+  logo: assets/img/logo.svg
+  favicon: assets/img/favicon.ico
+  language: en
+plugins:
+  - search:
+      separator: '[\s\-\.]'
+      min_length: 2
+      indexing:
+        "full"
+        # media_type: print
+        # enabled_if_env: ENABLE_PDF_EXPORT
+  - macros:
+      enabled_if_env: ENABLE_PDF_EXPORT
+markdown_extensions:
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      # auto_title: true
+      # anchor_linenums: true
+      # linenums: true
+      # linenums_style: pymdownx-inline
+  - pymdownx.tasklist:
+      clickable_checkbox: true
+      custom_checkbox: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.betterem
+  - admonition
+  - pymdownx.details
+  - footnotes
+  - attr_list
+  - md_in_html
+  - tables
+extra:
+  social:
+    - icon: fontawesome/solid/network-wired
+      link: https://uberg.me
+      name: Author website
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/lewiuberg/
+      name: Author on LinkedIn
+    - icon: fontawesome/brands/github
+      link: https://github.com/lewiuberg
+      name: Author on GitHub
+    - icon: fontawesome/brands/medium
+      link: https://lewiuberg.medium.com
+      name: Author on Medium
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/user/lewiuberg/
+      name: Author on PyPI
+    - icon: fontawesome/brands/stack-overflow
+      link: https://stackoverflow.com/users/10685529/lewi-uberg
+      name: Author on Stack Overflow
+# extra_css:
+#   - stylesheets/extra.css
+# extra_javascript:
+#   - javascripts/extra.js
+copyright: Copyright &copy; 2025 - 2025 Lewi Lie Uberg
+nav:
+  # - Home: /
+  - API:
+      - api/index.md
+      - Endpoints:
+          - api/endpoints/users.md
+  # - People: /people/
+  # - About: /about/

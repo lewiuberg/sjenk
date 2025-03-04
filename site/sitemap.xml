@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://lewiuberg.github.io/sjenk/</loc>
+         <lastmod>2025-03-04</lastmod>
+    </url>
+    <url>
+         <loc>https://lewiuberg.github.io/sjenk/api/</loc>
+         <lastmod>2025-03-04</lastmod>
+    </url>
+    <url>
+         <loc>https://lewiuberg.github.io/sjenk/api/endpoints/users/</loc>
+         <lastmod>2025-03-04</lastmod>
+    </url>
+</urlset>

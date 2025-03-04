@@ -7,9 +7,10 @@ port = 8000
 debug = true
 reload = true
 
-[db]
+[database]
 name = "sjenk"
-url = "sqlite:///./sjenk.sqlite3"
+url = "sqlite:///sjenk.db"
+echo = true
 
 [logging]
 path = "./logs"
