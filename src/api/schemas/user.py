@@ -48,11 +48,22 @@ class UserUpdate(BaseModel):
 
 
 class UserRead(BaseModel):
+    """
+    Model for reading user.
+
+    Parameters
+    ----------
+    BaseModel : pydantic.BaseModel
+        Base model for Pydantic.
+    """
+
     id: int
     username: str
     role: UserRole
 
     class Config:
+        """Pydantic configuration."""
+
         orm_mode = True
 
 

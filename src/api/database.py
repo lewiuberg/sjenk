@@ -1,8 +1,5 @@
 """Handle the database connection and session management."""
 
-from models.booking import Booking  # noqa: F401
-from models.place import Place  # noqa: F401
-from models.user import User  # noqa: F401
 from sqlmodel import Session, SQLModel, create_engine
 from utils import config
 
