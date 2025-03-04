@@ -1,7 +1,6 @@
 site_name: Sjenk Documentation
 site_description: Sjenk Documentation
 site_url: ""
-# site_url: https://uberg.me/ # <-- Not currently running.
 repo_url: https://github.com/lewiuberg/sjenk
 repo_name: sjenk
 edit_uri: blob/sjenk/docs/
