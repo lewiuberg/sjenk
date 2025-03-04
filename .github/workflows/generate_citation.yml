@@ -34,7 +34,13 @@ jobs:
         run: |
           python src/api/utils/generate_citation.py
 
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git diff --exit-code CITATION.cff || echo "CITATION.cff has changes"
+
       - name: Commit and push changes
+        if: steps.check_changes.outputs.changes == 'true'
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
