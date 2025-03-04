@@ -5,7 +5,10 @@ from database.models.user import User
 from fastapi import APIRouter, HTTPException
 from schemas.user import UserCreate, UserRead, UserUpdate
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/users",
+    tags=["users"],
+)
 
 
 @router.post("/users/", response_model=UserRead)
