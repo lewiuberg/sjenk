@@ -1,5 +1,5 @@
 site_name: Sjenk Documentation
-site_description: Sjenk Documentation
+site_description: A web-based booking system for managing time slots at various locations (e.g., football fields, gyms).
 site_url: "https://lewiuberg.github.io/sjenk/"
 repo_url: "https://github.com/lewiuberg/sjenk"
 repo_name: sjenk
