@@ -40,7 +40,7 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/lewiuberg/sjenk"
-Documentation = "https://github.com/lewiuberg/sjenk"
+Documentation = "https://lewiuberg.github.io/sjenk/"
 Repository = "https://github.com/lewiuberg/sjenk"
 Issues = "https://github.com/lewiuberg/sjenk/issues"
 Changelog = "https://github.com/lewiuberg/sjenk/blob/master/CHANGELOG"
