@@ -11,23 +11,7 @@ router = APIRouter(
 )
 
 
-@router.post(
-    "/users/",
-    response_model=UserRead,
-    # description="""
-    # Register a new user.
-    # Parameters
-    # ----------
-    # user : UserCreate
-    #     User data.
-    # session : SessionDep
-    #     Database session.
-    # Returns
-    # -------
-    # UserRead
-    #     User data.
-    # """,
-)
+@router.post("/users/", response_model=UserRead)
 async def create_user(user: UserCreate, session: SessionDep):
     """
     Register a new user.
