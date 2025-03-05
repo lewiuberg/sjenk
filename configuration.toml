@@ -1,5 +1,36 @@
 [project]
 
+[openapi]
+url = "/openapi.json"
+tags = '''
+[
+    {
+        "name": "users",
+        "description": "Operations with users.",
+        "externalDocs": {
+            "description": "External docs",
+            "url": "https://lewiuberg.github.io/sjenk/api/endpoints/users/"
+        }
+    },
+    {
+        "name": "places",
+        "description": "Operations with places.",
+        "externalDocs": {
+            "description": "External docs",
+            "url": "https://lewiuberg.github.io/sjenk/api/endpoints/places/"
+        }
+    },
+    {
+        "name": "bookings",
+        "description": "Operations with bookings.",
+        "externalDocs": {
+            "description": "External docs",
+            "url": "https://lewiuberg.github.io/sjenk/api/endpoints/bookings/"
+        }
+    }
+]
+'''
+
 [api]
 release_date = "2025-06-01"
 host = "localhost"

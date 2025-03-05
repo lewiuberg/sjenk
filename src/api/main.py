@@ -1,5 +1,6 @@
 """The main application."""
 
+import json
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from typing import Any
@@ -45,17 +46,8 @@ app = FastAPI(
     ],  # Change to dictionary access due to ".name" being a reserved keyword
     description=settings.project.description,
     version=settings.project.version,
-    openapi_url="/openapi.json",
-    openapi_tags=[
-        {
-            "name": "users",
-            "description": "Operations with users.",
-            "externalDocs": {
-                "description": "Items external docs",
-                "url": "https://fastapi.tiangolo.com/",
-            },
-        }
-    ],
+    openapi_url=config.openapi.url,
+    openapi_tags=json.loads(config.openapi.tags),
     docs_url="/docs",
     redoc_url="/redoc",
     terms_of_service=settings.project.urls.TermsOfService,
@@ -65,6 +57,7 @@ app = FastAPI(
     },
     license_info={
         "name": settings.project.license,
+        "identifier": "MIT",
         "url": settings["project"]["license-files"][0],
     },
     swagger_ui_parameters={
