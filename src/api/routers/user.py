@@ -11,7 +11,23 @@ router = APIRouter(
 )
 
 
-@router.post("/users/", response_model=UserRead)
+@router.post(
+    "/users/",
+    response_model=UserRead,
+    # description="""
+    # Register a new user.
+    # Parameters
+    # ----------
+    # user : UserCreate
+    #     User data.
+    # session : SessionDep
+    #     Database session.
+    # Returns
+    # -------
+    # UserRead
+    #     User data.
+    # """,
+)
 async def create_user(user: UserCreate, session: SessionDep):
     """
     Register a new user.
@@ -19,13 +35,17 @@ async def create_user(user: UserCreate, session: SessionDep):
     Parameters
     ----------
     user : UserCreate
+
         User data.
+
     session : SessionDep
+
         Database session.
 
     Returns
     -------
     UserRead
+
         User data.
     """
     db_user = User(
@@ -48,11 +68,13 @@ async def read_users(session: SessionDep):
     Parameters
     ----------
     session : SessionDep
+
         Database session.
 
     Returns
     -------
     list[UserRead]
+
         List of user data.
     """
     return session.query(User).all()
@@ -66,18 +88,23 @@ async def read_user(user_id: int, session: SessionDep):
     Parameters
     ----------
     user_id : int
+
         User ID.
+
     session : SessionDep
+
         Database session.
 
     Returns
     -------
     UserRead
+
         User data.
 
     Raises
     ------
     HTTPException
+
         User not found.
     """
     db_user = session.get(User, user_id)
@@ -94,20 +121,27 @@ async def update_user(user_id: int, user: UserUpdate, session: SessionDep):
     Parameters
     ----------
     user_id : int
+
         User ID.
+
     user : UserUpdate
+
         User data.
+
     session : SessionDep
+
         Database session.
 
     Returns
     -------
     UserRead
+
         User data.
 
     Raises
     ------
     HTTPException
+
         User not found.
     """
     db_user = session.get(User, user_id)

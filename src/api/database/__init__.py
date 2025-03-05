@@ -1,6 +1,7 @@
 """Handle the database connection and session management."""
 
-from typing import Annotated
+from collections.abc import Generator
+from typing import Annotated, Any
 
 from fastapi import Depends
 from properties import config
@@ -16,25 +17,25 @@ engine = create_engine(
 )
 
 
-def create_db_and_tables():
+def create_db_and_tables() -> None:
     """Create the database and tables."""
     SQLModel.metadata.create_all(engine)
 
 
-def get_session():
+def get_session() -> Generator[Session, Any]:
     """
-    Get a session from the database.
+    Get a database session.
 
     Yields
     ------
-    Session
-        A session from the database.
+    Generator[Session, Any]
+        A database session.
     """
     with Session(engine) as session:
         yield session
 
 
-def dispose():
+def dispose() -> None:
     """Dispose of the engine."""
     engine.dispose()
 
