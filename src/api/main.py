@@ -36,6 +36,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[Any]:
     yield
     # close the database engine on shutdown
     dispose()
+    logger.success("Application shutdown complete.")
 
 
 # Create FastAPI app instance after logging configuration
@@ -67,54 +68,11 @@ app = FastAPI(
         "app_name": settings.project.name,
         # "oauth2RedirectUrl": config.async_api.auth.oauth2_url,  # <-- Future?
     },
-    # generate_unique_id_functions=[],
     lifespan=lifespan,
 )
 
 # add routers to the FastAPI app
 app.include_router(user.router)
-
-
-@app.get("/")
-async def read_root():
-    logger.info("This is an info message.")
-    logger.trace("This is a trace message.")
-    logger.debug("This is a debug message.")
-    logger.success("This is a success message.")
-    logger.warning("This is a warning message.")
-    logger.error("This is an error message.")
-    logger.critical("This is a critical message")
-
-
-@app.get("/produce_error")
-async def produce_error():
-    try:
-        a = 1
-        b = "2"
-        a + b
-    except TypeError as e:
-        logger.exception(e)
-
-
-@logger.catch
-@app.get("/produce_zero_division_error")
-async def produce_zero_division_error():
-    try:
-        1 / 0
-    except ZeroDivisionError as e:
-        logger.exception(e)
-
-
-@app.get("/produce_custom_logs")
-async def produce_custom_logs():
-    customerLogger = logger.bind(customer_id="LEWI")
-    customerLogger.info("This is a custom log message.")
-    customerLogger.trace("This is a custom log message.")
-    customerLogger.debug("This is a custom log message.")
-    customerLogger.success("This is a custom log message.")
-    customerLogger.warning("This is a custom log message.")
-    customerLogger.error("This is a custom log message.")
-    customerLogger.critical("This is a custom log message.")
 
 
 if __name__ == "__main__":

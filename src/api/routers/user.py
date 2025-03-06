@@ -131,17 +131,8 @@ async def update_user(user_id: int, user: UserUpdate, session: SessionDep):
     db_user = session.get(User, user_id)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
-    for key, value in user.dict(exclude_unset=True).items():
+    for key, value in user.model_dump(exclude_unset=True).items():
         setattr(db_user, key, value)
     session.commit()
     session.refresh(db_user)
     return db_user
-    # not getting updated in the database
-    # db_user = session.qet(User, user_id)
-    # if db_user is None:
-    #     raise HTTPException(status_code=404, detail="User not found")
-    # for key, value in user.dict(exclude_unset=True).items():
-    #     setattr(db_user, key, value)
-    # session.commit()
-    # session.refresh(db_user)
-    # return db_user
