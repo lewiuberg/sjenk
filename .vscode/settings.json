@@ -25,8 +25,8 @@
     {
       "previewLimit": 50,
       "driver": "SQLite",
-      "database": "sjenk.sqlite3",
-      "name": "sjenk"
+      "name": "Sjenk",
+      "database": "sjenk.db"
     }
   ],
   "logViewer.watch": [
