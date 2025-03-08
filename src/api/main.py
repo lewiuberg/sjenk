@@ -9,7 +9,7 @@ import uvicorn
 from database import create_db_and_tables, dispose
 from fastapi import FastAPI
 from properties import config, settings
-from routers import user
+from routers import users
 from utils.logging import logger
 
 
@@ -72,7 +72,7 @@ app = FastAPI(
 )
 
 # add routers to the FastAPI app
-app.include_router(user.router)
+app.include_router(users.router)
 
 
 if __name__ == "__main__":

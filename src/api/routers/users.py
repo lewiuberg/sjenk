@@ -3,10 +3,9 @@
 from database import SessionDep
 from database.models.user import User
 from fastapi import APIRouter, HTTPException
-from schemas.user import UserCreate, UserRead, UserUpdate
+from schemas.users import UserCreate, UserRead, UserUpdate
 
 router = APIRouter(
-    prefix="/users",
     tags=["users"],
 )
 
