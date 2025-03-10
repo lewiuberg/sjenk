@@ -63,7 +63,11 @@ app = FastAPI(
     },
     swagger_ui_parameters={
         "docExpansion": "none",
-        "syntaxHighlight.theme": "nord",
+        "syntaxHighlight": {
+            "activated": True,
+            "theme": "nord",
+        },
+        "unsafeMarkdown": False,
         "tryItOutEnabled": True,
         "app_name": settings.project.name,
         # "oauth2RedirectUrl": config.async_api.auth.oauth2_url,  # <-- Future?
@@ -77,7 +81,7 @@ app.include_router(users.router)
 
 if __name__ == "__main__":
     uvicorn.run(
-        "main:app",
+        app="main:app",
         host=config.api.host,
         port=config.api.port,
         reload=config.api.reload,
