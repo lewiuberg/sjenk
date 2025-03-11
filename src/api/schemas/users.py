@@ -64,7 +64,7 @@ class UserRead(BaseModel):
     class Config:
         """Pydantic configuration."""
 
-        orm_mode = True
+        from_attributes = True
 
 
 class UserDelete(UserBase):

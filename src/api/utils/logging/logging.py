@@ -59,11 +59,23 @@ class LoggerConstructor:
         # Remove existing handlers
         for handler in logging.root.handlers[:]:
             logging.root.removeHandler(handler)
-        # Intercept standard logging
+        # Map custom levels to standard logging levels
+        level = self._map_log_level(config.logging.console.level)
         logging.basicConfig(
             handlers=[self.InterceptHandler()],
-            level=logging.NOTSET,
+            level=level,
         )
+        # Get all loggers from the logging module
+        loggers = [
+            logging.getLogger(name) for name in logging.root.manager.loggerDict
+        ]
+
+        # Intercept every logger
+        for logger_name in loggers:
+            logging_logger = logging.getLogger(logger_name.name)
+            logging_logger.handlers = [self.InterceptHandler()]
+            logging_logger.propagate = False
+            logging_logger.setLevel(level)
         # Set logger instance to use and remove default handler
         self._logger = logger
         self._logger.remove(0)
@@ -73,7 +85,7 @@ class LoggerConstructor:
         # Add console handler
         self._logger.add(
             sink=stderr,
-            level=config.logging.console.level,
+            level=level,
             format=self._console_format,
         )
         # Set console format category
@@ -95,6 +107,27 @@ class LoggerConstructor:
                 retention=config.logging.file.retention,
                 compression=config.logging.file.compression,
             )
+
+    def _map_log_level(self, level: str) -> int:
+        """
+        Map custom log levels to standard logging levels.
+
+        Parameters
+        ----------
+        level : str
+            The custom log level to map
+
+        Returns
+        -------
+        int
+            The mapped log level
+        """
+        level_mapping = {
+            "TRACE": logging.NOTSET,
+            "NOTSET": logging.NOTSET,
+            # Add other custom levels if needed
+        }
+        return level_mapping.get(level, logging.getLevelName(level))
 
     def _console_format(self, record: dict) -> str:
         """
