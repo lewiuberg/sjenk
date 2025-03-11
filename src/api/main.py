@@ -72,6 +72,8 @@ app = FastAPI(
         "app_name": settings.project.name,
         # "oauth2RedirectUrl": config.async_api.auth.oauth2_url,  # <-- Future?
     },
+    operations_sorter="alpha",
+    apis_sorter="alpha",
     lifespan=lifespan,
 )
 
