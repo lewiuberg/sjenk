@@ -36,7 +36,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[Any]:
     yield
     # close the database engine on shutdown
     dispose()
-    logger.success("Application shutdown complete.")
+    logger.info("Shutting down the application.")
 
 
 # Create FastAPI app instance after logging configuration
@@ -78,6 +78,7 @@ app = FastAPI(
 )
 
 # add routers to the FastAPI app
+logger.info("Including users router.")
 app.include_router(users.router)
 
 

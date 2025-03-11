@@ -24,7 +24,7 @@ message_len = 0
 deduct_len = 13
 
 [logging.console]
-level = "TRACE"
+level = "DEBUG"
 show_categories = true
 
 [logging.file]

@@ -10,6 +10,7 @@ from database import SessionDep
 from fastapi import APIRouter, HTTPException, status
 from schemas.users import UserCreate, UserRead, UserUpdate
 from sqlalchemy.exc import IntegrityError
+from utils.logging import logger
 
 router = APIRouter(
     prefix="/users",
@@ -34,7 +35,10 @@ async def read_users(session: SessionDep) -> list[UserRead]:
 
         The users.
     """
-    return await read_users_controller(session)
+    logger.info("Fetching all users.")
+    users = await read_users_controller(session)
+    logger.info("Fetched all users successfully.")
+    return users
 
 
 @router.post("", response_model=UserRead, status_code=status.HTTP_201_CREATED)
@@ -58,9 +62,13 @@ async def create_user(user: UserCreate, session: SessionDep) -> UserRead:
 
         The created user.
     """
+    logger.info(f"Creating user with username: {user.username}")
     try:
-        return await create_user_controller(user, session)
+        created_user = await create_user_controller(user, session)
+        logger.info(f"User created successfully: {created_user.username}")
+        return created_user
     except IntegrityError as err:
+        logger.error(f"Failed to create user: {err}")
         raise HTTPException(
             status_code=400, detail="Username already exists"
         ) from err
@@ -88,12 +96,15 @@ async def read_user(user_id: int, session: SessionDep) -> UserRead:
 
         The user.
     """
+    logger.info(f"Fetching user with ID: {user_id}")
     db_user = await read_user_controller(user_id, session)
     if db_user is None:
+        logger.warning(f"User with ID {user_id} not found.")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"User with user id {user_id} not found",
         )
+    logger.info(f"Fetched user with ID: {user_id} successfully.")
     return db_user
 
 
@@ -124,11 +135,13 @@ async def update_user(
 
         The updated user.
     """
-    # return await update_user_controller(user_id, user, session)
+    logger.info(f"Updating user with ID: {user_id}")
     db_user = await update_user_controller(user_id, user, session)
     if db_user is None:
+        logger.warning(f"User with ID {user_id} not found.")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"User with user id {user_id} not found",
         )
+    logger.info(f"Updated user with ID: {user_id} successfully.")
     return db_user
