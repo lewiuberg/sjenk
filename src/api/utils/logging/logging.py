@@ -263,6 +263,10 @@ class LoggerConstructor:
                 frame = frame.f_back
                 depth += 1
 
+            # Add logger name to the record
+            logger_name = record.name
+
+            # Prepend log message with logger name
             logger.opt(depth=depth, exception=record.exc_info).log(
-                level, record.getMessage()
+                level, f"[{logger_name}] {record.getMessage()}"
             )
