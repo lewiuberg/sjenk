@@ -18,29 +18,6 @@ router = APIRouter(
 )
 
 
-@router.get("", response_model=list[UserRead], status_code=status.HTTP_200_OK)
-async def read_users(session: SessionDep) -> list[UserRead]:
-    """
-    Read all users.
-
-    Parameters
-    ----------
-    session : SessionDep
-
-        The database session.
-
-    Returns
-    -------
-    list[UserRead]
-
-        The users.
-    """
-    logger.info("Fetching all users.")
-    users = await read_users_controller(session)
-    logger.info("Fetched all users successfully.")
-    return users
-
-
 @router.post("", response_model=UserRead, status_code=status.HTTP_201_CREATED)
 async def create_user(user: UserCreate, session: SessionDep) -> UserRead:
     """
@@ -72,6 +49,29 @@ async def create_user(user: UserCreate, session: SessionDep) -> UserRead:
         raise HTTPException(
             status_code=400, detail="Username already exists"
         ) from err
+
+
+@router.get("", response_model=list[UserRead], status_code=status.HTTP_200_OK)
+async def read_users(session: SessionDep) -> list[UserRead]:
+    """
+    Read all users.
+
+    Parameters
+    ----------
+    session : SessionDep
+
+        The database session.
+
+    Returns
+    -------
+    list[UserRead]
+
+        The users.
+    """
+    logger.info("Fetching all users.")
+    users = await read_users_controller(session)
+    logger.info("Fetched all users successfully.")
+    return users
 
 
 @router.get(
