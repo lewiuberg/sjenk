@@ -125,6 +125,32 @@ class LoggerConstructor:
         str
             The formatted log record
         """
+        message = record["message"]
+
+        if "###" in message:
+            # split message into 2 parts, temp and message
+            temp, message = message.split("###")[1:3]
+            record["message"] = message
+
+            # clean and convert temp to a dictionary
+            temp = dict(
+                item.split(":")
+                for item in temp.replace(" ", "")
+                .replace("{", "")
+                .replace("}", "")
+                .replace("'", "")
+                .split(",")
+            )
+
+            # update record with temp values
+            record.update(
+                {
+                    key: value.replace('"', "")
+                    for key, value in temp.items()
+                    if key in ["function", "name", "line"]
+                }
+            )
+
         _format = (
             f"<green>{{time:{config.logging.time_fmt}}}</green> "
             f"│ <magenta>{self._log_id: <{config.logging.log_id_len}}</magenta> "  # noqa: E501
@@ -245,10 +271,18 @@ class LoggerConstructor:
                 frame = frame.f_back
                 depth += 1
 
-            # Add logger name to the record
-            logger_name = record.name
+            # Make a dictionary with the items we want to pass to the console
+            temp = {
+                "function": record.funcName,
+                "name": record.name,
+                "line": record.lineno,
+            }
 
-            # Prepend log message with logger name
+            # Add the temp dictionary to the message
+            logger_message = f"###{temp}###{record.getMessage()}"
+
+            # Prepend log message with the values from the temp dictionary
             logger.opt(depth=depth, exception=record.exc_info).log(
-                level, f"[{logger_name}] {record.getMessage()}"
+                level,
+                logger_message,
             )
