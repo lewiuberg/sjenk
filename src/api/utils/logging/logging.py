@@ -59,8 +59,11 @@ class LoggerConstructor:
         # Remove existing handlers
         for handler in logging.root.handlers[:]:
             logging.root.removeHandler(handler)
-        # Map custom levels to standard logging levels
-        level = self._map_log_level(config.logging.console.level)
+        # Add custom log levels
+        logging.addLevelName(5, "TRACE")
+        # Set log level
+        level = config.logging.console.level
+        # Update basic logging configuration
         logging.basicConfig(
             handlers=[self.InterceptHandler()],
             level=level,
@@ -107,27 +110,6 @@ class LoggerConstructor:
                 retention=config.logging.file.retention,
                 compression=config.logging.file.compression,
             )
-
-    def _map_log_level(self, level: str) -> int:
-        """
-        Map custom log levels to standard logging levels.
-
-        Parameters
-        ----------
-        level : str
-            The custom log level to map
-
-        Returns
-        -------
-        int
-            The mapped log level
-        """
-        level_mapping = {
-            "TRACE": logging.NOTSET,
-            "NOTSET": logging.NOTSET,
-            # Add other custom levels if needed
-        }
-        return level_mapping.get(level, logging.getLevelName(level))
 
     def _console_format(self, record: dict) -> str:
         """
