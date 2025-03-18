@@ -59,10 +59,16 @@ class LoggerConstructor:
         # Remove existing handlers
         for handler in logging.root.handlers[:]:
             logging.root.removeHandler(handler)
-        # Map custom levels to standard logging levels
-        level = self._map_log_level(config.logging.console.level)
+        # Add custom log levels
+        logging.addLevelName(5, "TRACE")
+        # Set log level
+        level = config.logging.console.level
+        # Update basic logging configuration
+        handlers = (
+            [self.InterceptHandler()] if config.logging.intercept else []
+        )
         logging.basicConfig(
-            handlers=[self.InterceptHandler()],
+            handlers=handlers,
             level=level,
         )
         # Get all loggers from the logging module
@@ -73,7 +79,9 @@ class LoggerConstructor:
         # Intercept every logger
         for logger_name in loggers:
             logging_logger = logging.getLogger(logger_name.name)
-            logging_logger.handlers = [self.InterceptHandler()]
+            logging_logger.handlers = (
+                [self.InterceptHandler()] if config.logging.intercept else []
+            )
             logging_logger.propagate = False
             logging_logger.setLevel(level)
         # Set logger instance to use and remove default handler
@@ -108,27 +116,6 @@ class LoggerConstructor:
                 compression=config.logging.file.compression,
             )
 
-    def _map_log_level(self, level: str) -> int:
-        """
-        Map custom log levels to standard logging levels.
-
-        Parameters
-        ----------
-        level : str
-            The custom log level to map
-
-        Returns
-        -------
-        int
-            The mapped log level
-        """
-        level_mapping = {
-            "TRACE": logging.NOTSET,
-            "NOTSET": logging.NOTSET,
-            # Add other custom levels if needed
-        }
-        return level_mapping.get(level, logging.getLevelName(level))
-
     def _console_format(self, record: dict) -> str:
         """
         Format the log record for the console handler.
@@ -143,6 +130,9 @@ class LoggerConstructor:
         str
             The formatted log record
         """
+        if config.logging.temp_filter in record["message"]:
+            self.__process_temp_filter(record)
+
         _format = (
             f"<green>{{time:{config.logging.time_fmt}}}</green> "
             f"│ <magenta>{self._log_id: <{config.logging.log_id_len}}</magenta> "  # noqa: E501
@@ -197,6 +187,40 @@ class LoggerConstructor:
 
         return _format
 
+    def __process_temp_filter(self, record):
+        """
+        Process the temp filter in the log record.
+
+        Parameters
+        ----------
+        record : dict
+            The log record to process
+        """
+        # split message into 2 parts, temp and message
+        temp, message = record["message"].split(config.logging.temp_filter)[
+            1:3
+        ]
+        record["message"] = message
+
+        # clean and convert temp to a dictionary
+        temp = dict(
+            item.split(":")
+            for item in temp.replace(" ", "")
+            .replace("{", "")
+            .replace("}", "")
+            .replace("'", "")
+            .split(",")
+        )
+
+        # update record with temp values
+        record.update(
+            {
+                key: value.replace('"', "")
+                for key, value in temp.items()
+                if key in ["function", "name", "line"]
+            }
+        )
+
     def __set_console_format_category(self):
         """Set the console format category."""
         console_remaining_space = os.get_terminal_size().columns - (
@@ -215,7 +239,7 @@ class LoggerConstructor:
             f"{Fore.MAGENTA}{'Log ID': <{config.logging.log_id_len}}{Style.RESET_ALL} | "  # noqa: E501
             f"{Fore.WHITE}{'Level': <{config.logging.level_len}}{Style.RESET_ALL} | "  # noqa: E501
             f"{Fore.WHITE}{'Line': <{config.logging.line_len}}{Style.RESET_ALL} | "  # noqa: E501
-            f"{Fore.CYAN}{'Name': <{config.logging.name_len}}{Style.RESET_ALL} | "  # noqa: E501
+            f"{Fore.WHITE}{'Name': <{config.logging.name_len}}{Style.RESET_ALL} | "  # noqa: E501
             f"{Fore.WHITE}{'Function': <{config.logging.function_len}}{Style.RESET_ALL} | "  # noqa: E501
             f"{Fore.WHITE}{'Message'}{Style.RESET_ALL}\n"
             f"{'─' * (len(config.logging.time_fmt) - 4 + 1)}┼"
@@ -263,6 +287,18 @@ class LoggerConstructor:
                 frame = frame.f_back
                 depth += 1
 
+            # Make a dictionary with the items we want to pass to the console
+            temp = {
+                "function": record.funcName,
+                "name": record.name,
+                "line": record.lineno,
+            }
+
+            # Add the temp dictionary to the message
+            logger_message = f"{config.logging.temp_filter}{temp}{config.logging.temp_filter}{record.getMessage()}"
+
+            # Prepend log message with the values from the temp dictionary
             logger.opt(depth=depth, exception=record.exc_info).log(
-                level, record.getMessage()
+                level,
+                logger_message,
             )
