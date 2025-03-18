@@ -234,7 +234,7 @@ class LoggerConstructor:
             f"{Fore.MAGENTA}{'Log ID': <{config.logging.log_id_len}}{Style.RESET_ALL} | "  # noqa: E501
             f"{Fore.WHITE}{'Level': <{config.logging.level_len}}{Style.RESET_ALL} | "  # noqa: E501
             f"{Fore.WHITE}{'Line': <{config.logging.line_len}}{Style.RESET_ALL} | "  # noqa: E501
-            f"{Fore.CYAN}{'Name': <{config.logging.name_len}}{Style.RESET_ALL} | "  # noqa: E501
+            f"{Fore.WHITE}{'Name': <{config.logging.name_len}}{Style.RESET_ALL} | "  # noqa: E501
             f"{Fore.WHITE}{'Function': <{config.logging.function_len}}{Style.RESET_ALL} | "  # noqa: E501
             f"{Fore.WHITE}{'Message'}{Style.RESET_ALL}\n"
             f"{'─' * (len(config.logging.time_fmt) - 4 + 1)}┼"
