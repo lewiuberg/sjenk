@@ -127,9 +127,9 @@ class LoggerConstructor:
         """
         message = record["message"]
 
-        if "###" in message:
+        if config.logging.temp_filter in message:
             # split message into 2 parts, temp and message
-            temp, message = message.split("###")[1:3]
+            temp, message = message.split(config.logging.temp_filter)[1:3]
             record["message"] = message
 
             # clean and convert temp to a dictionary
@@ -279,7 +279,7 @@ class LoggerConstructor:
             }
 
             # Add the temp dictionary to the message
-            logger_message = f"###{temp}###{record.getMessage()}"
+            logger_message = f"{config.logging.temp_filter}{temp}{config.logging.temp_filter}{record.getMessage()}"
 
             # Prepend log message with the values from the temp dictionary
             logger.opt(depth=depth, exception=record.exc_info).log(
