@@ -64,8 +64,11 @@ class LoggerConstructor:
         # Set log level
         level = config.logging.console.level
         # Update basic logging configuration
+        handlers = (
+            [self.InterceptHandler()] if config.logging.intercept else []
+        )
         logging.basicConfig(
-            handlers=[self.InterceptHandler()],
+            handlers=handlers,
             level=level,
         )
         # Get all loggers from the logging module
@@ -76,7 +79,9 @@ class LoggerConstructor:
         # Intercept every logger
         for logger_name in loggers:
             logging_logger = logging.getLogger(logger_name.name)
-            logging_logger.handlers = [self.InterceptHandler()]
+            logging_logger.handlers = (
+                [self.InterceptHandler()] if config.logging.intercept else []
+            )
             logging_logger.propagate = False
             logging_logger.setLevel(level)
         # Set logger instance to use and remove default handler
