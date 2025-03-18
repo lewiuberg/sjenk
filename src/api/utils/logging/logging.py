@@ -125,31 +125,8 @@ class LoggerConstructor:
         str
             The formatted log record
         """
-        message = record["message"]
-
-        if config.logging.temp_filter in message:
-            # split message into 2 parts, temp and message
-            temp, message = message.split(config.logging.temp_filter)[1:3]
-            record["message"] = message
-
-            # clean and convert temp to a dictionary
-            temp = dict(
-                item.split(":")
-                for item in temp.replace(" ", "")
-                .replace("{", "")
-                .replace("}", "")
-                .replace("'", "")
-                .split(",")
-            )
-
-            # update record with temp values
-            record.update(
-                {
-                    key: value.replace('"', "")
-                    for key, value in temp.items()
-                    if key in ["function", "name", "line"]
-                }
-            )
+        if config.logging.temp_filter in record["message"]:
+            self.__process_temp_filter(record)
 
         _format = (
             f"<green>{{time:{config.logging.time_fmt}}}</green> "
@@ -204,6 +181,40 @@ class LoggerConstructor:
             _format += "\n"
 
         return _format
+
+    def __process_temp_filter(self, record):
+        """
+        Process the temp filter in the log record.
+
+        Parameters
+        ----------
+        record : dict
+            The log record to process
+        """
+        # split message into 2 parts, temp and message
+        temp, message = record["message"].split(config.logging.temp_filter)[
+            1:3
+        ]
+        record["message"] = message
+
+        # clean and convert temp to a dictionary
+        temp = dict(
+            item.split(":")
+            for item in temp.replace(" ", "")
+            .replace("{", "")
+            .replace("}", "")
+            .replace("'", "")
+            .split(",")
+        )
+
+        # update record with temp values
+        record.update(
+            {
+                key: value.replace('"', "")
+                for key, value in temp.items()
+                if key in ["function", "name", "line"]
+            }
+        )
 
     def __set_console_format_category(self):
         """Set the console format category."""
