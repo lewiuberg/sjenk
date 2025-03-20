@@ -32,11 +32,13 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[Any]:
         An asynchronous generator.
     """
     # use create_db_and_tables() once on startup
+    logger.info("Starting the application.")
     create_db_and_tables()
     yield
     # close the database engine on shutdown
-    dispose()
     logger.info("Shutting down the application.")
+    dispose()
+    logger.info("Application shutdown complete.")
 
 
 # Create FastAPI app instance after logging configuration
@@ -85,7 +87,7 @@ app.include_router(users.router)
 
 if __name__ == "__main__":
     uvicorn.run(
-        app="main:app",
+        app=f"{__name__}:app",
         host=config.api.host,
         port=config.api.port,
         reload=config.api.reload,

@@ -20,8 +20,16 @@ engine = create_engine(
 
 def create_db_and_tables() -> None:
     """Create the database and tables."""
-    logger.info("Creating database and tables...")
-    SQLModel.metadata.create_all(engine)
+    with engine.connect() as connection:
+        existing_tables = connection.dialect.has_table(
+            connection, "user"
+        )  # Check for one of the tables
+        if existing_tables:
+            logger.info("Database and tables already exist.")
+        else:
+            logger.info("Creating database and tables...")
+            SQLModel.metadata.create_all(engine)
+            logger.info("Database and tables created.")
 
 
 def get_session() -> Generator[Session, Any]:
@@ -33,13 +41,19 @@ def get_session() -> Generator[Session, Any]:
     Generator[Session, Any]
         A database session.
     """
+    logger.info("Creating a new database session...")
     with Session(engine) as session:
-        yield session
+        try:
+            yield session
+        finally:
+            logger.info("Closing the database session...")
 
 
 def dispose() -> None:
     """Dispose of the engine."""
+    logger.info("Disposing of the engine...")
     engine.dispose()
+    logger.info("Engine disposed.")
 
 
 # Define a type alias for the database session dependency
