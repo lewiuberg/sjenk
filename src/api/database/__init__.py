@@ -6,6 +6,7 @@ from typing import Annotated, Any
 from fastapi import Depends
 from properties import config
 from sqlmodel import Session, SQLModel, create_engine
+from utils.logging import logger
 
 from database.models.booking import Booking
 from database.models.place import Place
@@ -19,6 +20,7 @@ engine = create_engine(
 
 def create_db_and_tables() -> None:
     """Create the database and tables."""
+    logger.info("Creating database and tables...")
     SQLModel.metadata.create_all(engine)
 
 

@@ -24,6 +24,7 @@ name_len = 30
 function_len = 30
 message_len = 0
 deduct_len = 13
+specific_loggers = ["sqlalchemy.engine.Engine", "uvicorn"]
 
 [logging.console]
 level = "DEBUG"
