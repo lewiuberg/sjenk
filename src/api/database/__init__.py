@@ -14,7 +14,7 @@ from database.models.user import User
 
 connect_args = {"check_same_thread": False}
 engine = create_engine(
-    config.database.url, echo="debug", connect_args=connect_args
+    config.database.url, echo=config.database.echo, connect_args=connect_args
 )
 
 

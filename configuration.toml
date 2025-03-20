@@ -10,11 +10,11 @@ reload = true
 [database]
 name = "sjenk"
 url = "sqlite:///sjenk.db"
-echo = true
+echo = false  # can be true, "debug" or false
 
 [logging]
 path = "./logs"
-intercept = false
+intercept = false  # remember to set database.echo to reflect this setting
 temp_filter = "~|||~"
 time_fmt = "YYYY-MM-DD_HH:mm:ss!UTC"
 log_id_len = 8

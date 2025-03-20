@@ -75,6 +75,7 @@ app = FastAPI(
     operations_sorter="alpha",
     apis_sorter="alpha",
     lifespan=lifespan,
+    # logger=logger,
 )
 
 # add routers to the FastAPI app
