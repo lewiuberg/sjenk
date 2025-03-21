@@ -892,6 +892,7 @@ docs = [
     { name = "mkdocs" },
     { name = "mkdocs-macros-plugin" },
     { name = "mkdocs-material" },
+    { name = "pymdown-extensions" },
 ]
 test = [
     { name = "pytest" },
@@ -927,6 +928,7 @@ docs = [
     { name = "mkdocs", specifier = ">=1.6.1" },
     { name = "mkdocs-macros-plugin", specifier = ">=1.3.7" },
     { name = "mkdocs-material", specifier = ">=9.6.7" },
+    { name = "pymdown-extensions", specifier = ">=10.14.3" },
 ]
 test = [
     { name = "pytest", specifier = ">=8.3.4" },
