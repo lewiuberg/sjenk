@@ -76,6 +76,11 @@ class LoggerConstructor:
             logging.getLogger(name) for name in logging.root.manager.loggerDict
         ]
 
+        # Add specific loggers to intercept if intercept is enabled
+        if config.logging.intercept:
+            for specific_logger in config.logging.specific_loggers:
+                loggers.append(logging.getLogger(specific_logger))
+
         # Intercept every logger
         for logger_name in loggers:
             logging_logger = logging.getLogger(logger_name.name)

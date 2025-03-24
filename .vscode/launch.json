@@ -24,7 +24,8 @@
       "jinja": true,
       "env": {
         "PYTHONPATH": "${workspaceFolder}/src/api"
-      }
+      },
+      "justMyCode": false
     },
     {
       "name": "Python: Remote Attach",

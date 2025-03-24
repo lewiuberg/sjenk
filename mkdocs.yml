@@ -7,6 +7,11 @@ edit_uri: blob/sjenk/docs/
 author: Lewi Lie Uberg
 theme:
   name: material
+  icon:
+    repo: fontawesome/brands/github
+  logo: assets/img/logo.png
+  favicon: assets/img/favicon.ico
+  language: en
   palette:
     - scheme: default
       primary: indigo
@@ -32,12 +37,8 @@ theme:
   # - navigation.expand
   # - navigation.sections
   # - header.autohide
-  icon:
-    repo: fontawesome/brands/github
-  logo: assets/img/logo.svg
-  favicon: assets/img/favicon.ico
-  language: en
 plugins:
+  - social:
   - search:
       separator: '[\s\-\.]'
       min_length: 2
@@ -63,6 +64,14 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+  - markdown.extensions.footnotes
+  - markdown.extensions.attr_list
+  - markdown.extensions.def_list
+  - markdown.extensions.tables
+  - markdown.extensions.abbr
+  - markdown.extensions.md_in_html
+  - pymdownx.betterem
+  - pymdownx.superfences
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.critic
@@ -70,13 +79,12 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.mark
   - pymdownx.tilde
-  - pymdownx.betterem
   - admonition
   - pymdownx.details
-  - footnotes
-  - attr_list
-  - md_in_html
-  - tables
+  # - footnotes
+  # - attr_list
+  # - md_in_html
+  # - tables
 extra:
   social:
     - icon: fontawesome/solid/network-wired

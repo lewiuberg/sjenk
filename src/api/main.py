@@ -3,6 +3,7 @@
 import json
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
+from datetime import UTC, datetime
 from typing import Any
 
 import uvicorn
@@ -11,6 +12,7 @@ from fastapi import FastAPI
 from properties import config, settings
 from routers import users
 from utils.logging import logger
+from utils.logging.helpers import seconds_elapsed
 
 
 @asynccontextmanager
@@ -31,12 +33,16 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[Any]:
     AsyncGenerator[Any]
         An asynchronous generator.
     """
-    # use create_db_and_tables() once on startup
+    start_time = datetime.now(UTC)
+    logger.info("Starting the application.")
     create_db_and_tables()
     yield
     # close the database engine on shutdown
-    dispose()
     logger.info("Shutting down the application.")
+    dispose()
+    # logger.info("Application shutdown complete.")
+    logger.info("Application shutdown complete.")
+    logger.info(f"Time elapsed: {seconds_elapsed(start_time)} seconds.")
 
 
 # Create FastAPI app instance after logging configuration
@@ -84,7 +90,7 @@ app.include_router(users.router)
 
 if __name__ == "__main__":
     uvicorn.run(
-        app="main:app",
+        app=f"{__name__}:app",
         host=config.api.host,
         port=config.api.port,
         reload=config.api.reload,
