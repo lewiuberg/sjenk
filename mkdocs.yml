@@ -7,6 +7,11 @@ edit_uri: blob/sjenk/docs/
 author: Lewi Lie Uberg
 theme:
   name: material
+  icon:
+    repo: fontawesome/brands/github
+  logo: assets/img/logo.png
+  favicon: assets/img/favicon.ico
+  language: en
   palette:
     - scheme: default
       primary: indigo
@@ -32,12 +37,8 @@ theme:
   # - navigation.expand
   # - navigation.sections
   # - header.autohide
-  icon:
-    repo: fontawesome/brands/github
-  logo: assets/img/logo.svg
-  favicon: assets/img/favicon.ico
-  language: en
 plugins:
+  - social:
   - search:
       separator: '[\s\-\.]'
       min_length: 2

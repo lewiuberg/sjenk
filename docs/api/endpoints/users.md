@@ -1,4 +1,6 @@
 ---
+title: Users
+description: The Users endpoint allows you to manage users in the Sjenk API.
 author: "Lewi Lie Uberg"
 ---
 

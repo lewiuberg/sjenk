@@ -23,3 +23,6 @@ sjenk.db
 
 # Code line count
 .VSCodeCounter
+
+# Social media cache
+.cache/plugin/social
