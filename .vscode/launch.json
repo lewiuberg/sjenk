@@ -18,9 +18,9 @@
       "name": "Python Debugger: FastAPI",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/src/api/main.py",
-      // "module": "uvicorn",
-      // "args": ["src.api.main:app"],
+      // "program": "${workspaceFolder}/src/api/main.py",
+      "module": "uvicorn",
+      "args": ["src.api.main:app", "--host", "localhost", "--port", "5000"],
       "jinja": true,
       "env": {
         "PYTHONPATH": "${workspaceFolder}/src/api"
