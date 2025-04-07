@@ -26,3 +26,6 @@ sjenk.db
 
 # Social media cache
 .cache/plugin/social
+
+# Mkdocs
+site/

@@ -29,6 +29,7 @@ theme:
     - search.suggest
     - search.highlight
     - toc.integrate
+    - content.tabs.link
     - navigation.top
     - navigation.indexes
     - navigation.tabs
@@ -41,16 +42,24 @@ plugins:
   - social:
   - search:
       separator: '[\s\-\.]'
-      min_length: 2
-      indexing:
-        "full"
-        # media_type: print
-        # enabled_if_env: ENABLE_PDF_EXPORT
+      # min_length: 2
+      # indexing:
+      #   "full"
+      # media_type: print
+      # enabled_if_env: ENABLE_PDF_EXPORT
+  - neoteroi.mkdocsoad:
+      use_pymdownx: true
   - macros:
       enabled_if_env: ENABLE_PDF_EXPORT
 markdown_extensions:
   - toc:
       permalink: true
+  - markdown.extensions.footnotes
+  - markdown.extensions.attr_list
+  - markdown.extensions.def_list
+  - markdown.extensions.tables
+  - markdown.extensions.abbr
+  - markdown.extensions.md_in_html
   - pymdownx.highlight:
       # auto_title: true
       # anchor_linenums: true
@@ -64,12 +73,9 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
-  - markdown.extensions.footnotes
-  - markdown.extensions.attr_list
-  - markdown.extensions.def_list
-  - markdown.extensions.tables
-  - markdown.extensions.abbr
-  - markdown.extensions.md_in_html
+  - pymdownx.tabbed:
+      alternate_style: true
+      # tabbed_code_style: pymdownx-inline
   - pymdownx.betterem
   - pymdownx.superfences
   - pymdownx.inlinehilite
@@ -79,8 +85,8 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.mark
   - pymdownx.tilde
-  - admonition
   - pymdownx.details
+  - admonition
   # - footnotes
   # - attr_list
   # - md_in_html

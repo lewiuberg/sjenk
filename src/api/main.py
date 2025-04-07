@@ -1,6 +1,7 @@
 """The main application."""
 
 import json
+import os
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from datetime import UTC, datetime
@@ -83,9 +84,24 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+
+def save_openapi_schema():
+    openapi_schema = app.openapi()
+    output_path = os.path.join(
+        os.path.dirname(__file__), "../../docs/openapi.json"
+    )
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with open(output_path, "w") as f:
+        json.dump(openapi_schema, f, indent=4)
+    logger.info(f"OpenAPI schema saved to {output_path}")
+
+
 # add routers to the FastAPI app
 logger.info("Including users router.")
 app.include_router(users.router)
+
+# Save OpenAPI schema when the program starts
+save_openapi_schema()
 
 
 if __name__ == "__main__":
