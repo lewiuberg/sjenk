@@ -1,0 +1,352 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "sjenk",
+        "description": "A web-based booking system for managing time slots at various locations (e.g., football fields, gyms).",
+        "termsOfService": "https://github.com/lewiuberg/sjenk/blob/master/TERMS_OF_SERVICE.md",
+        "contact": {
+            "name": "Lewi Lie Uberg",
+            "email": "lewiuberg@icloud.com"
+        },
+        "license": {
+            "name": "MIT",
+            "identifier": "MIT",
+            "url": "https://github.com/lewiuberg/sjenk/blob/master/LICENSE"
+        },
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/users": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Read Users",
+                "description": "Read all users.\n\nParameters\n----------\nsession : SessionDep\n\n    The database session.\n\nReturns\n-------\nlist[UserRead]\n\n    The users.",
+                "operationId": "read_users_users_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserRead"
+                                    },
+                                    "type": "array",
+                                    "title": "Response Read Users Users Get"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Create User",
+                "description": "Create a user.\n\nParameters\n----------\nuser : UserCreate\n\n    The user to create.\n\nsession : SessionDep\n\n    The database session.\n\nReturns\n-------\nUserRead\n\n    The created user.",
+                "operationId": "create_user_users_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserRead"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Read User",
+                "description": "Read a user.\n\nParameters\n----------\nuser_id : int\n\n    The user ID.\nsession : SessionDep\n\n    The database session.\n\nReturns\n-------\nUserRead\n\n    The user.",
+                "operationId": "read_user_users__user_id__get",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "title": "User Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserRead"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Update User",
+                "description": "Update a user.\n\nParameters\n----------\nuser_id : int\n\n    The user ID.\nuser : UserUpdate\n\n    The user to update.\nsession : SessionDep\n\n    The database session\n\nReturns\n-------\nUserRead\n\n    The updated user.",
+                "operationId": "update_user_users__user_id__put",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "title": "User Id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserRead"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "UserCreate": {
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "title": "Username"
+                    },
+                    "password_hash": {
+                        "type": "string",
+                        "title": "Password Hash"
+                    },
+                    "role": {
+                        "$ref": "#/components/schemas/UserRole"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "username",
+                    "password_hash",
+                    "role"
+                ],
+                "title": "UserCreate",
+                "description": "Model for creating user.\n\nParameters\n----------\nUserBase : UserBase\n    Base model for user."
+            },
+            "UserRead": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "title": "Id"
+                    },
+                    "username": {
+                        "type": "string",
+                        "title": "Username"
+                    },
+                    "role": {
+                        "$ref": "#/components/schemas/UserRole"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "username",
+                    "role"
+                ],
+                "title": "UserRead",
+                "description": "Model for reading user.\n\nParameters\n----------\nBaseModel : pydantic.BaseModel\n    Base model for Pydantic."
+            },
+            "UserRole": {
+                "type": "string",
+                "enum": [
+                    "admin",
+                    "leader",
+                    "member",
+                    "user"
+                ],
+                "title": "UserRole",
+                "description": "Types of user roles.\n\nParameters\n----------\nEnum : enum.Enum\n    User role names."
+            },
+            "UserUpdate": {
+                "properties": {
+                    "username": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Username"
+                    },
+                    "password_hash": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Password Hash"
+                    },
+                    "role": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/UserRole"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    }
+                },
+                "type": "object",
+                "title": "UserUpdate",
+                "description": "Model for updating user.\n\nParameters\n----------\nBaseModel : pydantic.BaseModel\n    Base model for Pydantic."
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "users",
+            "description": "Operations with users.",
+            "externalDocs": {
+                "description": "External docs",
+                "url": "https://lewiuberg.github.io/sjenk/api/endpoints/users/"
+            }
+        },
+        {
+            "name": "places",
+            "description": "Operations with places.",
+            "externalDocs": {
+                "description": "External docs",
+                "url": "https://lewiuberg.github.io/sjenk/api/endpoints/places/"
+            }
+        },
+        {
+            "name": "bookings",
+            "description": "Operations with bookings.",
+            "externalDocs": {
+                "description": "External docs",
+                "url": "https://lewiuberg.github.io/sjenk/api/endpoints/bookings/"
+            }
+        }
+    ]
+}
